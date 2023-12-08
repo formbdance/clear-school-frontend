@@ -17,49 +17,6 @@ import { gsap } from "gsap/gsap-core";
 import ScrollTrigger from "gsap/ScrollTrigger";
 
 export const Main = () => {
-  useEffect(() => {
-    gsap.to(".right-block", {
-      y: "20",
-      duration: 1,
-      yoyo: true,
-      repeat: -1,
-      ease: "power1.inOut", // Эффект анимации
-    });
-    gsap.registerPlugin(ScrollTrigger);
-    gsap.set(".advantage-animate", { x: -200, opacity: 0 });
-    gsap.set(".steps-animate", { y: 500, opacity: 0 });
-    handleAnimate();
-    handleScroll();
-    document.body.style.backgroundColor = "white";
-  }, []);
-
-  if (auth.currentUser) {
-    return <Navigate to={"/author"} />;
-  }
-
-  const handleScroll = () => {
-    gsap.to(".advantage-animate", {
-      opacity: 1,
-      x: 0,
-      scrollTrigger: {
-        trigger: ".advantage-animate",
-        scrub: true,
-        start: "top 75%",
-        end: "top 10%",
-      },
-    });
-    gsap.to(".steps-animate", {
-      opacity: 1,
-      y: 0,
-      scrollTrigger: {
-        trigger: ".steps-animate",
-        scrub: true,
-        start: "top 92%",
-        end: "top 60%",
-      },
-    });
-  };
-
   const handleAnimate = () => {
     var tl = gsap.timeline({ repeat: false });
     tl.fromTo(
@@ -98,11 +55,28 @@ export const Main = () => {
     );
   };
 
+  useEffect(() => {
+    gsap.to(".right-block", {
+      y: "20",
+      duration: 1.5,
+      scale: 1.05,
+      yoyo: true,
+      repeat: -1,
+      ease: "power1.inOut", // Эффект анимации
+    });
+    handleAnimate();
+    document.body.style.backgroundColor = "white";
+  }, []);
+
+  if (auth.currentUser) {
+    return <Navigate to={"/author"} />;
+  }
+
   return (
     <section className="text-yaDark ">
       <Login />
       <Menu />
-      <div className="container mx-auto sm:py-4">
+      <div className="container mx-auto sm:py-4 ">
         <div className="h-nav flex items-center justify-center gap-y-4 gap-x-6 md:justify-between mx-auto flex-wrap md:flex-nowrap ">
           <div className="hidden sm:flex items-center gap-3">
             <img
@@ -119,10 +93,10 @@ export const Main = () => {
         </div>
         <Centerblock />
       </div>
-      <div className="advantage-animate mt-20">
+      <div className="mt-20">
         <Advantages />
       </div>
-      <div className="steps-animate">
+      <div className="">
         <Steps />
       </div>
 

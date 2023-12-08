@@ -22,7 +22,11 @@ export const Centerblock = () => {
       </div>
       <div className="order-1 sm:order-2 right-block relative w-full sm:w-1/2 flex justify-center mt-6 sm:mt-0">
         <div className="w-3/4 sm:w-3/4">
-          <img src={require("@assets/images/main/womanshape.png")} alt="" />
+          <img
+            src={require("@assets/images/main/womanshape.png")}
+            className=""
+            alt=""
+          />
         </div>
       </div>
     </section>

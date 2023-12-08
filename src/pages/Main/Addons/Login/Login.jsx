@@ -98,9 +98,36 @@ export const Login = () => {
       });
   };
 
+  const handleAnimate = () => {
+    let tl = gsap.timeline({ repeat: false });
+    tl.fromTo(
+      ".login-section",
+      {
+        opacity: 0,
+      },
+      {
+        opacity: 1,
+        duration: 0.75,
+      }
+    );
+    tl.fromTo(
+      ".login-box",
+      {
+        y: -300,
+        opacity: 0,
+      },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 0.75,
+      }
+    );
+  };
+
   useEffect(() => {
     if (modalState === true) {
       document.body.style.overflow = "hidden";
+      handleAnimate();
     } else {
       document.body.style.overflow = "auto";
     }
@@ -110,16 +137,17 @@ export const Login = () => {
     return <></>;
   }
   return (
-    <section className="absolute w-full h-screen z-50">
-      <div
-        onClick={handlerClosedModal}
-        className="bg-black bg-opacity-80 absolute w-full h-full"
-      ></div>
-      <div className="flex items-center justify-center h-full w-full ">
-        <div className="bg-white py-6 px-6 rounded sm:max-w-md h-full justify-center  sm:h-fit w-full flex flex-col items-center gap-8 relative">
+    <section className="absolute w-screen h-screen z-50">
+      <div className="bg-black bg-opacity-80 absolute w-full h-full login-section "></div>
+      <div className="login-box flex items-center justify-center h-full w-full ">
+        <div
+          className=" absolute w-full h-full "
+          onClick={handlerClosedModal}
+        ></div>
+        <div className="bg-white py-6 px-6 rounded sm:max-w-md h-full justify-center sm:h-fit w-full flex flex-col items-center gap-8 relative z-50">
           <button
             onClick={handlerClosedModal}
-            className="absolute right-0 top-0 -translate-x-4 translate-y-2 font-semibold "
+            className="absolute right-0 top-0 -translate-x-4 translate-y-2 font-semibold cursor-pointer"
           >
             X
           </button>

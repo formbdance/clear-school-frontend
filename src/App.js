@@ -32,7 +32,8 @@ function App() {
   }, [dispatch])
 
   useEffect(() => {
-    if(person.length === 0  && auth.currentUser) {
+    console.log('app ', person)
+    if(person.length === 0 && auth.currentUser) {
       dispatch(createPerson({
         uuid: auth.currentUser.uid,
         email: auth.currentUser.email,

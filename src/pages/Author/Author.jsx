@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getOrders } from "../../feature/sliceAssets/orderSlice";
+import { gsap } from "gsap/gsap-core";
 
 export const Author = () => {
   const dispatch = useDispatch();
@@ -13,6 +14,27 @@ export const Author = () => {
     document.body.style.backgroundColor = "#f1f1f1";
     document.body.style.overflow = "auto";
   }, []);
+
+  const handleAnimate = () => {
+    gsap.fromTo(
+      ".author-order",
+      {
+        x: -200,
+        opacity: 0,
+      },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 0.55,
+        stagger: 0.35,
+      }
+    );
+  };
+
+  useEffect(() => {
+    handleAnimate();
+  }, []);
+
   useEffect(() => {
     dispatch(getOrders(user));
   }, [dispatch, loadStatus, user]);
@@ -28,9 +50,13 @@ export const Author = () => {
             <div className="mt-4 flex flex-col gap-3 px-6 xl:px-0">
               {Array.isArray(orders) && orders.length > 0 ? (
                 orders.map((i) => (
-                  <Link to={`/author/order/${i._id}`} key={i._id}>
+                  <Link
+                    to={`/author/order/${i._id}`}
+                    key={i._id}
+                    className="author-order"
+                  >
                     <div className="bg-white rounded py-3 px-6 flex justify-center text-center sm:text-left sm:justify-between gap-3 flex-wrap sm:flex-nowrap">
-                      <div>
+                      <div className="w-full sm:w-fit">
                         {!i.inWork ? (
                           <p className="text-sm sm:text-lg font-medium">
                             Заказ #{i._id}

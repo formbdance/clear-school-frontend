@@ -2,11 +2,32 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getFeedOrders } from "../../feature/sliceAssets/orderSlice";
 import { Link } from "react-router-dom";
+import { gsap } from "gsap/gsap-core";
 
 export const Feedorders = () => {
   const dispatch = useDispatch();
   const orders = useSelector((state) => state.orderState.feedOrders);
   const user = useSelector((state) => state.userStates.uuid);
+
+  const handleAnimate = () => {
+    gsap.fromTo(
+      ".feeds-order",
+      {
+        x: -200,
+        opacity: 0,
+      },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 0.55,
+        stagger: 0.35,
+      }
+    );
+  };
+
+  useEffect(() => {
+    handleAnimate();
+  }, []);
 
   useEffect(() => {
     dispatch(getFeedOrders(user));
@@ -22,7 +43,11 @@ export const Feedorders = () => {
             <div className="mt-4 flex flex-col gap-3 px-6 xl:px-0">
               {Array.isArray(orders) && orders.length > 0 ? (
                 orders.map((i) => (
-                  <Link to={`/author/order/${i._id}`} key={i._id}>
+                  <Link
+                    to={`/author/order/${i._id}`}
+                    key={i._id}
+                    className="feeds-order"
+                  >
                     <div className="bg-white rounded py-3 px-6 flex justify-center text-center sm:text-left sm:justify-between gap-3 flex-wrap sm:flex-nowrap">
                       <div>
                         {!i.inWork ? (

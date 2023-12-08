@@ -19,7 +19,9 @@ const personSlice = createSlice({
         .addCase(createPerson.pending, (state) => {
             state.createStatus = false
         })
-        .addCase(createPerson.fulfilled, (state) => {
+        .addCase(createPerson.fulfilled, (state,action) => {
+            console.log('create ', action.payload)
+            state.currentPerson = action.payload
             state.createStatus = true
         })
         .addCase(updateUsername.pending, (state) => {

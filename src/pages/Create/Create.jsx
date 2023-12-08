@@ -1,12 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { auth } from "@fire";
 import { saveOrder } from "../../feature/sliceAssets/orderSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { gsap } from "gsap/gsap-core";
 export const Create = () => {
   const user = useSelector((state) => state.userStates.uuid);
+  const [tempUser, setTempuser] = useState("");
+  const person = useSelector((state) => state.personState.currentPerson);
   const dispatch = useDispatch();
+
   const [orderForm, setOrderForm] = useState({
     uuid: user,
+    username: tempUser,
     workType: "",
     workclassName: "",
     name: "",
@@ -17,10 +22,10 @@ export const Create = () => {
     description: "",
     inWork: false,
   });
-
   const handleClearForm = () => {
     setOrderForm({
       uuid: user,
+      username: tempUser,
       workType: "",
       workclassName: "",
       name: "",
@@ -33,7 +38,72 @@ export const Create = () => {
     });
   };
 
+  const handleAnimate = () => {
+    let tl = gsap.timeline({ repeat: false });
+    tl.fromTo(
+      ".create-section",
+      {
+        opacity: 0,
+      },
+      {
+        opacity: 1,
+        duration: 0.25,
+      }
+    );
+    tl.fromTo(
+      ".create-left--input",
+      {
+        x: -200,
+        opacity: 0,
+      },
+      {
+        x: 0,
+        opacity: 1,
+        stagger: 0.15,
+      }
+    );
+    tl.fromTo(
+      ".create-right--textarea",
+      {
+        opacity: 0,
+        scale: 0,
+      },
+      {
+        x: 0,
+        scale: 1,
+        opacity: 1,
+        stagger: 0.25,
+      }
+    );
+    tl.fromTo(
+      ".create-right--text",
+      {
+        opacity: 0,
+      },
+      {
+        x: 0,
+        opacity: 1,
+        duration: 0.25,
+      }
+    );
+  };
+
+  useEffect(() => {
+    gsap.set(".create-right--text", { opacity: 0 });
+    handleAnimate();
+  }, [gsap]);
+
+  useEffect(() => {
+    if (person[0].username) {
+      setTempuser(person[0].username);
+      setOrderForm({ ...orderForm, username: person[0].username });
+    }
+  }, [person]);
+
   const formChecker = () => {
+    if (orderForm.username === "") {
+      setOrderForm({ ...orderForm, username: "NoNameUser" });
+    }
     for (let i = 0; i < Object.keys(orderForm).length; i++) {
       if (orderForm[Object.keys(orderForm)[i]] === "") {
         return false;
@@ -62,7 +132,7 @@ export const Create = () => {
   };
 
   return (
-    <section className=" text-yaDark-medium py-8">
+    <section className=" text-yaDark-medium py-8 create-section">
       <div className="container mx-auto  bg-white ">
         <div className="flex justify-center">
           <div className="w-full rounded ">
@@ -73,7 +143,7 @@ export const Create = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 px-12 py-3 gap-10 ">
               <div className="flex flex-col gap-5 order-2 md:order-1">
                 <div className="flex flex-col gap-5 mt-2">
-                  <div className="relative h-11 w-full min-w-[200px]">
+                  <div className="relative h-11 w-full min-w-[200px] create-left--input">
                     <input
                       placeholder="Разработка"
                       value={orderForm.workType}
@@ -82,7 +152,7 @@ export const Create = () => {
                       }
                       className={`${
                         orderForm.workType
-                          ? "border-gray-200 placeholder-gray-700"
+                          ? "border-green-500 text-yaDark-medium"
                           : "border-red-500 placeholder-red-500 placeholder-opacity-50"
                       } peer h-full w-full border-b bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-yaDark focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50`}
                     />
@@ -90,7 +160,8 @@ export const Create = () => {
                       Тип работы
                     </label>
                   </div>
-                  <div className="relative h-11 w-full min-w-[200px]">
+
+                  <div className="relative h-11 w-full min-w-[200px] create-left--input">
                     <input
                       placeholder="Веб-разработка"
                       value={orderForm.workclassName}
@@ -102,7 +173,7 @@ export const Create = () => {
                       }
                       className={`${
                         orderForm.workclassName
-                          ? "border-gray-200 placeholder-gray-700"
+                          ? "border-green-500 text-yaDark-medium"
                           : "border-red-500 placeholder-red-500 placeholder-opacity-50"
                       } peer h-full w-full border-b bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-yaDark focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50`}
                     />
@@ -110,7 +181,7 @@ export const Create = () => {
                       Предмет
                     </label>
                   </div>
-                  <div className="relative h-11 w-full min-w-[200px]">
+                  <div className="relative h-11 w-full min-w-[200px] create-left--input">
                     <input
                       placeholder="Название заказа"
                       value={orderForm.name}
@@ -119,7 +190,7 @@ export const Create = () => {
                       }
                       className={`${
                         orderForm.name
-                          ? "border-gray-200 placeholder-gray-700"
+                          ? "border-green-500 text-yaDark-medium"
                           : "border-red-500 placeholder-red-500 placeholder-opacity-50"
                       } peer h-full w-full border-b bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-yaDark focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50`}
                     />
@@ -128,7 +199,7 @@ export const Create = () => {
                     </label>
                   </div>
                 </div>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center create-left--input">
                   <p className="font-medium">Срок сдачи:</p>
                   <input
                     type="date"
@@ -138,13 +209,13 @@ export const Create = () => {
                     }
                     className={`${
                       orderForm.datetime
-                        ? "border-gray-200 placeholder-gray-700"
+                        ? "border-green-500 text-yaDark-medium"
                         : "border-red-500 placeholder-red-500 placeholder-opacity-50"
                     } peer h-full w-2/4 lg:w-1/4 border-b bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-yaDark focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50`}
                   />
                 </div>
                 <div className="flex flex-col gap-5">
-                  <div className="relative h-11 w-full min-w-[200px]">
+                  <div className="relative h-11 w-full min-w-[200px] create-left--input">
                     <input
                       placeholder="2321"
                       value={orderForm.price}
@@ -153,7 +224,7 @@ export const Create = () => {
                       }
                       className={`${
                         orderForm.price
-                          ? "border-gray-200 placeholder-gray-700"
+                          ? "border-green-500 text-yaDark-medium"
                           : "border-red-500 placeholder-red-500 placeholder-opacity-50"
                       } peer h-full w-full border-b bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-yaDark focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50`}
                     />
@@ -161,7 +232,7 @@ export const Create = () => {
                       Цена
                     </label>
                   </div>
-                  <div className="relative h-11 w-full min-w-[200px]">
+                  <div className="relative h-11 w-full min-w-[200px] create-left--input">
                     <input
                       placeholder="Свободная"
                       value={orderForm.originals}
@@ -173,7 +244,7 @@ export const Create = () => {
                       }
                       className={`${
                         orderForm.originals
-                          ? "border-gray-200 placeholder-gray-700"
+                          ? "border-green-500 text-yaDark-medium"
                           : "border-red-500 placeholder-red-500 placeholder-opacity-50"
                       } peer h-full w-full border-b bg-transparent pt-4 pb-1.5 font-sans text-sm font-normal text-blue-gray-700 outline outline-0 transition-all placeholder-shown:border-blue-gray-200 focus:border-yaDark focus:outline-0 disabled:border-0 disabled:bg-blue-gray-50`}
                     />
@@ -181,7 +252,7 @@ export const Create = () => {
                       Требуемая оригинальность
                     </label>
                   </div>
-                  <div className="mt-4 ">
+                  <div className="mt-4 create-left--input">
                     <button
                       onClick={handleOrder}
                       className="text-white duration-300 hover:bg-yaOrange-medium  text-lg px-6 py-3 bg-yaOrange rounded-lg font-semibold"
@@ -192,7 +263,7 @@ export const Create = () => {
                 </div>
               </div>
               <div className="flex flex-col justify-between gap-4 bg-4 order-1 md:order-2">
-                <div className="flex flex-col gap-1  h-full">
+                <div className="flex flex-col gap-1  h-full create-right--textarea">
                   <p className="font-medium">Описание работы</p>
                   <textarea
                     value={orderForm.description}
@@ -203,15 +274,17 @@ export const Create = () => {
                       })
                     }
                     className={`${
-                      orderForm.description ? "border" : "border-red-500"
+                      orderForm.description
+                        ? "border-green-500 text-yaDark-medium"
+                        : "border-red-500"
                     } border w-full rounded outline-none px-3 py-2 h-48 md:h-full`}
                   ></textarea>
                 </div>
                 <div className="flex flex-col gap-2 items-start">
-                  <button className="bg-yaDark text-gray-100 px-6 py-2 rounded-lg hover:bg-yaDark-medium duration-300">
+                  <button className="opacity-0 create-right--text bg-yaDark text-gray-100 px-6 py-2 rounded-lg hover:bg-yaDark-medium duration-300">
                     Добавить файлы
                   </button>
-                  <div className="w-full flex flex-col gap-2">
+                  <div className="w-full flex flex-col gap-2 create-right--text">
                     <p className="font-medium">Добавленные файлы:</p>
                     <p className="text-gray-400 w-full">
                       Нет добавленных файлов

@@ -5,13 +5,13 @@ export const Chat = () => {
         <div className="flex justify-start  gap-3">
           <div className="flex items-end">
             <img
-              src=""
+              src={require("@assets/images/addons/profile.png")}
               alt="IMG"
-              className="w-14 h-14 rounded-full bg-gray-400"
+              className="w-14 rounded-full "
             />
           </div>
           <div className="flex flex-col gap-1 w-2/4">
-            <p className="text-gray-400">Имя Фамилия</p>
+            <p className="text-gray-400">Виктор Палыч</p>
             <p className="bg-gray-100 rounded-lg p-3 rounded-bl-none">
               Lorem ipsum, dolor sit amet consectetur adipisicing elit.
               Similique earum aliquam quas vel dolorem. Aut?
@@ -30,9 +30,9 @@ export const Chat = () => {
           </div>
           <div className="flex items-end">
             <img
-              src=""
+              src={require("@assets/images/addons/currentuser.png")}
               alt="IMG"
-              className="w-14 h-14 rounded-full bg-gray-400"
+              className="w-14 rounded-full "
             />
           </div>
         </div>
@@ -41,7 +41,11 @@ export const Chat = () => {
         <div className="border rounded-lg p-3 flex justify-between items-center">
           <div className="flex gap-4">
             <div>
-              <img src="" alt="" className="rounded-xl w-10 h-10 bg-gray-400" />
+              <img
+                src={require("@assets/images/addons/emoji.png")}
+                alt=""
+                className="rounded-xl w-8 transition-all duration-300 animate-bounce hover:scale-105 hover:animate-pulse cursor-pointer "
+              />
             </div>
             <input
               type="text"

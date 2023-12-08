@@ -1,6 +1,6 @@
 export const Stats = () => {
   return (
-    <section className=" mt-6 md:mt-16">
+    <section className="mt-6 md:mt-16 ">
       <div className="flex flex-col items-center justify-center relative mt-16">
         <h2 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-center ">
           Актуальная статистика

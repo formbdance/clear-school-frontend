@@ -1,13 +1,37 @@
+import { gsap } from "gsap/gsap-core";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import { useEffect } from "react";
+
 export const Steps = () => {
+  const startAnimate = () => {
+    gsap.to(".steps-animate", {
+      opacity: 1,
+      y: 0,
+      scrollTrigger: {
+        trigger: ".steps-animate",
+        scrub: true,
+        stagger: 0.35,
+        start: "top 90%",
+        end: "top 60%",
+      },
+    });
+  };
+
+  useEffect(() => {
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.set(".steps-animate", { y: 500, opacity: 0 });
+    startAnimate();
+  });
+
   return (
-    <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+    <div className="steps-animate px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
       <div className="flex flex-col items-center justify-center relative">
         <h2 className="text-2xl lg:text-3xl xl:text-4xl font-bold text-center ">
           Этапы работы
         </h2>
         <hr className="bg-yaOrange p-1 rounded-full w-16 mt-6" />
       </div>
-      <div className="grid gap-8 row-gap-0 lg:grid-cols-3 mt-16">
+      <div className="steps-animate grid gap-8 row-gap-0 lg:grid-cols-3 mt-16">
         <div className="relative text-center">
           <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-indigo-50 sm:w-20 sm:h-20">
             <svg
@@ -149,7 +173,7 @@ export const Steps = () => {
           </div>
         </div>
       </div>
-      <div className="grid gap-8 row-gap-0 lg:grid-cols-3 mt-8 lg:mt-10">
+      <div className="steps-animate grid gap-8 row-gap-0 lg:grid-cols-3 mt-8 lg:mt-10">
         <div className="relative text-center">
           <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-full bg-indigo-50 sm:w-20 sm:h-20">
             <svg

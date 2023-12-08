@@ -36,7 +36,7 @@ app.post('/api/create/person/:uuid', async (req, res) => {
     await MongoDBclient.connect()
     const exployees = MongoDBclient.db('flfree').collection('persons')
     await exployees.insertOne(req.body)
-    res.status(200).send("saved");
+    res.json(req.body)
   } catch (err) {
       res.status(500).send(err.message);
       console.error(err)
